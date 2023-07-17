@@ -28,7 +28,7 @@ public partial class @PlayerInputAsset : IInputActionCollection2, IDisposable
             ""id"": ""fafc2faf-8d03-4b40-b725-05095aa73633"",
             ""actions"": [
                 {
-                    ""name"": ""ChangeColor"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""7429437e-1d7e-427b-a6f9-17ac6fa785c7"",
                     ""expectedControlType"": ""Button"",
@@ -45,7 +45,7 @@ public partial class @PlayerInputAsset : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangeColor"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -56,7 +56,7 @@ public partial class @PlayerInputAsset : IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_ChangeColor = m_Player.FindAction("ChangeColor", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -116,12 +116,12 @@ public partial class @PlayerInputAsset : IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_ChangeColor;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @PlayerInputAsset m_Wrapper;
         public PlayerActions(@PlayerInputAsset wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ChangeColor => m_Wrapper.m_Player_ChangeColor;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -131,22 +131,22 @@ public partial class @PlayerInputAsset : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @ChangeColor.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeColor;
-                @ChangeColor.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeColor;
-                @ChangeColor.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeColor;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @ChangeColor.started += instance.OnChangeColor;
-                @ChangeColor.performed += instance.OnChangeColor;
-                @ChangeColor.canceled += instance.OnChangeColor;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
     public interface IPlayerActions
     {
-        void OnChangeColor(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
